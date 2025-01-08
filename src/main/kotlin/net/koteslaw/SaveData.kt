@@ -1,4 +1,4 @@
-package net.koteslaw.commands
+package net.koteslaw
 
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
@@ -11,7 +11,6 @@ import net.minecraft.world.PersistentState
 import net.minecraft.world.World
 
 class SaveData : PersistentState() {
-    var kits = mutableMapOf<String,PlayerInventory>()
     override fun writeNbt(nbt: NbtCompound?, registries: WrapperLookup?): NbtCompound {
          val mapNbt = NbtCompound()
          kits.forEach{ (key,value)->
@@ -21,6 +20,7 @@ class SaveData : PersistentState() {
          return nbt
     }
     companion object {
+        var kits = mutableMapOf<String,PlayerInventory>()
         private const val KEY = "Duel.Kits"
         private fun PlayerInventory.write(nbtList: NbtList,registries: WrapperLookup?): NbtList {
             for (i in this.main.indices) {
@@ -74,7 +74,7 @@ class SaveData : PersistentState() {
                 inventory.read(nbtList,registryLookup)
                 map[key] = inventory
             }
-            state.kits = map
+            this.kits = map
             return state
         }
         private val type = Type(
